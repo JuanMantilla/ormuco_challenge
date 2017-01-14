@@ -1,4 +1,1 @@
-python-pip
-python-dev
-build-essential
 Django==1.9.1
