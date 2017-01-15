@@ -1,1 +1,4 @@
-nginx-full
+Django==1.9.1
+virtualenv
+netifaces
+django-bootstrap3
