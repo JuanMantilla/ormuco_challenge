@@ -1,0 +1,62 @@
+---
+- hosts: servers
+  vars_files:
+    - vars.yml
+  gather_facts: false
+  become: yes
+
+  tasks:
+    - name: install the latest version of pip on Debian
+      apt: pkg=python-pip state=latest
+
+    - name: install the latest version of gunicorn on Debian
+      apt: pkg=gunicorn state=latest
+
+    - name: install the latest version of nginx on Debian
+      apt: pkg=nginx state=latest
+    - name: Clone/pull project repo
+
+      git: repo={{ project_repo }} force=yes dest={{ install_root }}/{{ project_name }} accept_hostkey=yes
+      notify:
+      - restart gunicorn
+
+    - name: install python packages
+      pip: requirements={{ install_root }}/{{ project_name }}/requirements.txt
+      notify:
+      - restart gunicorn
+
+    - name: django migrate
+      django_manage: command=migrate app_path={{ install_root }}/{{ project_name }} pythonpath={{ pythonpath }}
+
+    - name: copy nginx config
+      template: src=/home/django/django_project/files/nginx.j2 dest=/etc/nginx/sites-enabled/{{ project_name }}.conf
+      notify:
+      - restart nginx
+
+    - name: copy gunicorn config
+      template: src=/home/django/django_project/files/gunicorn.j2 dest=/etc/init/gunicorn.conf
+      notify:
+      - restart gunicorn
+
+    - name: copy gunicorn config for Django
+      template: src=/home/django/django_project/files/django dest=/etc/nginx/sites-enabled/django
+      notify:
+      - restart gunicorn
+
+    - name: remove default nginx site
+      file: path=/etc/nginx/sites-enabled/default state=absent
+
+    - name: make sure nginx server is running
+      service: name=nginx state=started enabled=yes
+
+    - name: make sure gunicorn server is running
+      service: name=gunicorn state=started enabled=yes
+
+    - script: /home/django/django_project/files/run_server.sh
+ handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+    - name: restart gunicorn
+      service: name=gunicorn state=restarted
+# vim:ft=ansible:
