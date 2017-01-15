@@ -14,13 +14,19 @@ To install this application you need an Ubuntu 16.04.1. Within it, run the follo
    $ sudo apt-get install sshpass
 
 4) So far you have installed everythin needed to run ansible. Now, copy and paste the vars.yml and deploy.yml found in this repository at
-   /ormuco_challenge/ansible in your machine.
+   /ormuco_challenge/ansible in your machine. Make sure they have the same structure as the one in the repository (sometimes it changes)
+   
+5) In the vars.yml file, search for:
+   # the dns name or names (space separated) for your server
+     server_name: 104.131.166.11
+     
+   And replace 104.131.166.11 with your_ip
+   
+6) $ ansible all -m ping (here you'll be asked if you want to continue, type yes)
 
-5) $ ansible all -m ping
+7) $ ansible all -m ping -s -k -u root, here provide your root password when asked.
 
-6) $ ansible all -m ping -s -k -u root
-
-7) $ ansible-playbook deploy.yml -u root
+8) $ ansible-playbook deploy.yml -u root
    Here the playbook run will "freeze" at the "script" task wich is the one that runs the server.
    
-8) Now you're able to go tu http://your_ip:8000/ormuco and use the ormuco challenge app.
+9) Now you're able to go tu http://your_ip:8000/ormuco and use the ormuco challenge app.
