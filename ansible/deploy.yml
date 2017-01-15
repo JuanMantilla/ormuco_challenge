@@ -45,7 +45,7 @@
 
     - name: remove default nginx site
       file: path=/etc/nginx/sites-enabled/default state=absent
-
+    
     - name: make sure nginx server is running
       service: name=nginx state=started enabled=yes
 
@@ -53,7 +53,18 @@
       service: name=gunicorn state=started enabled=yes
 
     - script: /home/django/django_project/files/run_server.sh
- handlers:
+
+#    - name: change directory
+#      command: chdir=/home/django/django_project/files ./runserver.sh
+#      args:
+#        warn: no
+
+#    - name: run server
+#      command: ./manage.py runserver 0.0.0.0:8000
+#      args:
+#        warn: no
+
+  handlers:
     - name: restart nginx
       service: name=nginx state=restarted
 
