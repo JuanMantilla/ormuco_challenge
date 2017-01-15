@@ -1,3 +1,2 @@
 Django==1.9.1
-virtualenv==9.0.1
 netifacesnetifaces
