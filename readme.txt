@@ -13,7 +13,7 @@ To install this application you need an Ubuntu 16.04.1. Within it, run the follo
 3) Now run:
    $ sudo apt-get install sshpass
 
-4) So far you have installed everythin needed to run ansible. Now, copy and paste the vars.yml and deploy.yml found in this repository at
+4) So far you have installed everything needed to run ansible. Now, copy and paste the vars.yml and deploy.yml found in this repository at
    /ormuco_challenge/ansible in your machine. Make sure they have the same structure as the one in the repository (sometimes it changes)
    
 5) In the vars.yml file, search for:
