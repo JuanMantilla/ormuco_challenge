@@ -1,3 +1,3 @@
 #!/bin/bash        
 cd /home/django/django_project/
-./manage.py runserver 0.0.0.0:8000
+--workers 3 --bind 127.0.0.1:8000 django_project.wsgi:application
