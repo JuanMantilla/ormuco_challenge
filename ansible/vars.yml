@@ -27,7 +27,7 @@ pythonpath: "{{ install_root }}/{{ project_name }}/ormuco/apps"
 project_repo: https://github.com/JuanMantilla/ormuco_challenge
 
 # a private key that has access to the repository URL
-ssh_private_key: ~/.ssh/id_rsa
+ssh_private_key: ~/.ssh/key
 
 # The value of your django project's STATIC_ROOT settings.
 # This will be the directory that django's `collectstatic` management command
