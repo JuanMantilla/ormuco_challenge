@@ -52,7 +52,9 @@
     - name: make sure gunicorn server is running
       service: name=gunicorn state=started enabled=yes
 
-    - script: /home/django/django_project/files/run_server.sh
+    - name: finish, {{ project_name }} is running in this server
+      command: chdir=/home/ormuco_challenge/django_project /usr/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 {{ wsgi_module }}:application
+
 
 #    - name: change directory
 #      command: chdir=/home/django/django_project/files ./runserver.sh
