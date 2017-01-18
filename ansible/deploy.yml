@@ -29,17 +29,17 @@
       django_manage: command=migrate app_path={{ install_root }}/{{ project_name }} pythonpath={{ pythonpath }}
 
     - name: copy nginx config
-      template: src=/home/django/django_project/files/nginx.j2 dest=/etc/nginx/sites-enabled/{{ project_name }}.conf
+      template: src=/home/nginx.j2 dest=/etc/nginx/sites-enabled/{{ project_name }}.conf
       notify:
       - restart nginx
 
     - name: copy gunicorn config
-      template: src=/home/django/django_project/files/gunicorn.j2 dest=/etc/init/gunicorn.conf
+      template: src=/home/gunicorn.j2 dest=/etc/init/gunicorn.conf
       notify:
       - restart gunicorn
 
     - name: copy gunicorn config for Django
-      template: src=/home/django/django_project/files/django dest=/etc/nginx/sites-enabled/django
+      template: src=/home/django dest=/etc/nginx/sites-enabled/django
       notify:
       - restart gunicorn
 
@@ -53,7 +53,7 @@
       service: name=gunicorn state=started enabled=yes
 
     - name: finish, {{ project_name }} is running in this server
-      command: chdir=/home/ormuco_challenge/django_project /usr/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 {{ wsgi_module }}:application
+      command: chdir=/home/ormuco_challenge/django_project/django_project /usr/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 {{ wsgi_module }}:application
 
 
 #    - name: change directory
